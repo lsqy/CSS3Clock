@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!-- 只在移动端识别 -->
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0" />
+    <title></title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        .wrap {
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(#a9fdff, #d9eaf8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .box {
+            width: 350px;
+            height: 350px;
+            border-radius: 30px;
+            background-image: linear-gradient(#f9fdff, #d9eaf8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background-image: linear-gradient(#f9fdff, #d9eaf8);
+            box-shadow: 1px 12px 20px rgba(0, 0, 0, 0.6);
+            position: relative;
+        }
+
+        .hours {
+            width: 6px;
+            height: 60px;
+            background-color: #1AA9D8;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -80%);
+            border-radius: 5px 5px 0 0;
+            transform-origin: 50% 80%;  /*确定旋转中心；*/
+        }
+
+        .minutes {
+            width: 4px;
+            height: 80px;
+            background-color: #1AA9D8;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -80%);
+            border-radius: 5px 5px 0 0;
+            transform-origin: 50% 80%;
+        }
+
+        .seconds {
+            width: 2px;
+            height: 100px;
+            background-color: #1AA9D8;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -80%);
+            border-radius: 5px 5px 0 0;
+            transform-origin: 50% 80% ;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background-color: #d9eaf8;
+            box-shadow: 0px 3px 10px -1px #0f4873;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        .clock span {
+            position: absolute;
+            font: 700 20px "Arial";
+            color: #8da6b8;
+        }
+
+        .s1 {
+            left: 100%;
+            top: 50%;
+            transform: translate(-150%, -50%);
+        }
+
+        .s2 {
+            left: 50%;
+            top: 100%;
+            transform: translate(-50%, -150%);
+        }
+
+        .s3 {
+            top: 50%;
+            transform: translate(150%, -50%);
+        }
+
+        .s4 {
+            left: 50%;
+            transform: translate(-50%, 50%);
+        }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="box">
+        <div class="clock">
+            <span class="s1">3</span>
+            <span class="s2">6</span>
+            <span class="s3">9</span>
+            <span class="s4">12</span>
+
+            <div class="hours"></div>
+            <div class="minutes"></div>
+            <div class="seconds"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</div>
+<script>
+    var hours = document.querySelector(".hours");
+    var minutes = document.querySelector(".minutes");
+    var seconds = document.querySelector(".seconds");
+    var clock = null;
+        rotate();  //提前调用一下，让初始时不是0
+    clock = setInterval(function () {
+        rotate();
+    }, 1000)
+    function rotate(){
+        var nowTime = new Date();
+        var nowHours = nowTime.getHours() % 12 * 30;
+        /*转换成12小时制，每一次转30度*/
+        var nowMinutes = nowTime.getMinutes();
+        var nowSeconds = nowTime.getSeconds();
+        hours.style.transform = "translate(-50%, -80%) rotate(" + nowHours + "deg)";  //一定要注意translate跟rotate的先后顺序是有要求的，必须先translate再rotate在这里才能达成效果；
+        minutes.style.transform = "translate(-50%, -80%) rotate(" + nowMinutes * 6 + "deg)";
+        seconds.style.transform = "translate(-50%, -80%) rotate(" + nowSeconds * 6 + "deg)";
+    }
+    // clearInterval(clock);
+</script>
+</body>
+</html>
